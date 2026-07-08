@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603060059009",
+    "project_id": "ijaz-naveed",
+    "storage_bucket": "ijaz-naveed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603060059009:android:a789f8a57bece0cab0c680",
+        "android_client_info": {
+          "package_name": "com.example.ijaz_naveed_backend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO5TDOuIKT8iXQrvrZ1NUHaliK-I-vfcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
