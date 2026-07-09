@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ijaz_naveed_backend/models/city.dart';
 import 'package:ijaz_naveed_backend/services/city.dart';
 import 'package:ijaz_naveed_backend/views/city/create_city.dart';
+import 'package:ijaz_naveed_backend/views/city/get_remaining_city.dart';
+import 'package:ijaz_naveed_backend/views/city/get_visited_city.dart';
+import 'package:ijaz_naveed_backend/views/city/update_city.dart';
 import 'package:provider/provider.dart';
 
 class GetAllCities extends StatelessWidget {
@@ -14,6 +17,14 @@ class GetAllCities extends StatelessWidget {
         title: Text("Get All Cities"),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetVisitedCity()));
+          }, icon: Icon(Icons.location_on)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetRemainingCity()));
+          }, icon: Icon(Icons.local_airport)),
+        ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateCity()));
@@ -30,6 +41,36 @@ class GetAllCities extends StatelessWidget {
                   leading: Icon(Icons.location_city),
                   title: Text(cityList[index].city.toString()),
                   subtitle: Text(cityList[index].population.toString()),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Checkbox(
+                          value: cityList[index].visited,
+                          onChanged: (val)async{
+                            try{
+                              await CityServices().markAsVisitedCity(
+                                  cityList[index].docId.toString(),
+                                  val!);
+                            }catch(e){
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text(e.toString())));
+                            }
+                          }),
+                      IconButton(onPressed: ()async{
+                        try{
+                          await CityServices().deleteCity(
+                            cityList[index].docId.toString()
+                          );
+                        }catch(e){
+                         ScaffoldMessenger.of(context)
+                         .showSnackBar(SnackBar(content: Text(e.toString())));
+                        }
+                      }, icon: Icon(Icons.delete, color: Colors.red,)),
+                      IconButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateCity(model: cityList[index],)));
+                      }, icon: Icon(Icons.edit,color: Colors.blue,))
+                    ],
+                  ),
                 );
               },);
           },
