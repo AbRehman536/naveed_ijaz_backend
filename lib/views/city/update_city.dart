@@ -59,7 +59,19 @@ class _UpdateCityState extends State<UpdateCity> {
                         city: nameController.text.toString(),
                         population: int.parse(populationController.text.toString())
                     )
-                );
+                ).then((val){
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text("Update Successfully"),
+                      actions: [
+                        TextButton(onPressed: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }, child: Text("Okay"))
+                      ],
+                    );
+                  }, );
+                });
               }catch(e){
                 ScaffoldMessenger.of(context)
                     .showSnackBar(SnackBar(content: Text(e.toString())));

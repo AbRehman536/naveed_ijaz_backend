@@ -68,4 +68,31 @@ class CityServices{
    ).toList()
    );
  }
+ ///Get All Favortie City
+ Stream<List<CityModel>> getAllFavCity(String userID){
+   return FirebaseFirestore.instance
+       .collection(cityCollection)
+       .where("favorite" , arrayContains: userID)
+       .snapshots()
+       .map((cityList)=> cityList.docs
+       .map((cityJson) => CityModel.fromJson(cityJson.data()),
+   ).toList()
+   );
+ }
+ ///add To Favorite
+  Future addToFavorite({required String userID, required String cityID})
+  async{
+    return await FirebaseFirestore.instance
+        .collection(cityCollection)
+        .doc(cityID)
+        .update({"favorite" : FieldValue.arrayUnion([userID])});
+  }
+ ///remove From Favorite
+  Future removeFromFavorite({required String userID, required String cityID})
+  async{
+    return await FirebaseFirestore.instance
+        .collection(cityCollection)
+        .doc(cityID)
+        .update({"favorite" : FieldValue.arrayRemove([userID])});
+  }
 }

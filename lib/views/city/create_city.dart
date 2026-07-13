@@ -49,7 +49,19 @@ class _CreateCityState extends State<CreateCity> {
                     visited: false,
                     createdAt: DateTime.now().millisecondsSinceEpoch
                   )
-                );
+                ).then((val){
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text("Create Successfully"),
+                      actions: [
+                        TextButton(onPressed: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }, child: Text("Okay"))
+                      ],
+                    );
+                  }, );
+                });
               }catch(e){
                 ScaffoldMessenger.of(context)
                     .showSnackBar(SnackBar(content: Text(e.toString())));

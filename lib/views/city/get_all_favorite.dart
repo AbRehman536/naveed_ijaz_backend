@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ijaz_naveed_backend/models/city.dart';
 import 'package:ijaz_naveed_backend/services/city.dart';
-import 'package:ijaz_naveed_backend/views/city/create_city.dart';
-import 'package:ijaz_naveed_backend/views/city/get_all_favorite.dart';
-import 'package:ijaz_naveed_backend/views/city/get_remaining_city.dart';
-import 'package:ijaz_naveed_backend/views/city/get_visited_city.dart';
 import 'package:ijaz_naveed_backend/views/city/update_city.dart';
 import 'package:provider/provider.dart';
 
-class GetAllCities extends StatelessWidget {
-  const GetAllCities({super.key});
+class GetAllFavoriteCity extends StatelessWidget {
+  const GetAllFavoriteCity({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Get All Cities"),
+        title: Text("Favorite City"),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetVisitedCity()));
-          }, icon: Icon(Icons.location_on)),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetRemainingCity()));
-          }, icon: Icon(Icons.local_airport)),
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllFavoriteCity()));
-          }, icon: Icon(Icons.favorite)),
-        ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateCity()));
-      },child: Icon(Icons.add),),
       body: StreamProvider.value(
-          value: CityServices().getAllCity(),
+          value: CityServices().getAllFavCity("101"),
           initialData: [CityModel()],
           builder: (context, child){
             List<CityModel> cityList = context.watch<List<CityModel>>();
@@ -48,18 +30,6 @@ class GetAllCities extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(onPressed: ()async{
-                        if(cityList[index].favorite!.contains("101")){
-                          await CityServices().removeFromFavorite(
-                              userID: "101",
-                              cityID: cityList[index].docId.toString());
-                        }
-                        else{
-                          CityServices().addToFavorite(
-                              userID: "101",
-                              cityID: cityList[index].docId.toString());
-                        }
-                      }, icon: Icon(cityList[index].favorite!.contains("101") ? Icons.favorite : Icons.favorite_border)),
                       Checkbox(
                           value: cityList[index].visited,
                           onChanged: (val)async{
@@ -75,11 +45,11 @@ class GetAllCities extends StatelessWidget {
                       IconButton(onPressed: ()async{
                         try{
                           await CityServices().deleteCity(
-                            cityList[index].docId.toString()
+                              cityList[index].docId.toString()
                           );
                         }catch(e){
-                         ScaffoldMessenger.of(context)
-                         .showSnackBar(SnackBar(content: Text(e.toString())));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text(e.toString())));
                         }
                       }, icon: Icon(Icons.delete, color: Colors.red,)),
                       IconButton(onPressed: (){
@@ -90,7 +60,7 @@ class GetAllCities extends StatelessWidget {
                 );
               },);
           },
-        ),
+      ),
     );
   }
 }
