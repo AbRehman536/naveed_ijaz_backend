@@ -13,6 +13,7 @@ class UpdateCity extends StatefulWidget {
 class _UpdateCityState extends State<UpdateCity> {
   TextEditingController nameController = TextEditingController();
   TextEditingController populationController = TextEditingController();
+  bool isLoading = false;
   @override
   void initState(){
     super.initState();
@@ -51,8 +52,12 @@ class _UpdateCityState extends State<UpdateCity> {
               ),
             ),
             SizedBox(height: 10,),
+            isLoading ? Center(child: CircularProgressIndicator(),):
             ElevatedButton(onPressed: ()async{
               try{
+                setState(() {
+                  isLoading = true;
+                });
                 await CityServices().updateCity(
                     CityModel(
                       docId: widget.model.docId.toString(),
@@ -60,6 +65,9 @@ class _UpdateCityState extends State<UpdateCity> {
                         population: int.parse(populationController.text.toString())
                     )
                 ).then((val){
+                  setState(() {
+                    isLoading = false;
+                  });
                   showDialog(context: context, builder: (BuildContext context) {
                     return AlertDialog(
                       content: Text("Update Successfully"),
@@ -73,6 +81,9 @@ class _UpdateCityState extends State<UpdateCity> {
                   }, );
                 });
               }catch(e){
+                setState(() {
+                  isLoading = false;
+                });
                 ScaffoldMessenger.of(context)
                     .showSnackBar(SnackBar(content: Text(e.toString())));
               }

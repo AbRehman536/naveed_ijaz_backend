@@ -12,6 +12,7 @@ class CreateCity extends StatefulWidget {
 class _CreateCityState extends State<CreateCity> {
   TextEditingController nameController = TextEditingController();
   TextEditingController populationController = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +41,12 @@ class _CreateCityState extends State<CreateCity> {
               ),
             ),
             SizedBox(height: 10,),
+            isLoading ? Center(child: CircularProgressIndicator(),):
             ElevatedButton(onPressed: ()async{
               try{
+                setState(() {
+                  isLoading = true;
+                });
                 await CityServices().createCity(
                   CityModel(
                     city: nameController.text.toString(),
@@ -50,6 +55,9 @@ class _CreateCityState extends State<CreateCity> {
                     createdAt: DateTime.now().millisecondsSinceEpoch
                   )
                 ).then((val){
+                  setState(() {
+                    isLoading = false;
+                  });
                   showDialog(context: context, builder: (BuildContext context) {
                     return AlertDialog(
                       content: Text("Create Successfully"),
@@ -63,6 +71,9 @@ class _CreateCityState extends State<CreateCity> {
                   }, );
                 });
               }catch(e){
+                setState(() {
+                isLoading = false;
+              });
                 ScaffoldMessenger.of(context)
                     .showSnackBar(SnackBar(content: Text(e.toString())));
               }
