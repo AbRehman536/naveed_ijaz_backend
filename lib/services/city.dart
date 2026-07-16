@@ -95,4 +95,15 @@ class CityServices{
         .doc(cityID)
         .update({"favorite" : FieldValue.arrayRemove([userID])});
   }
+ ///Get City By Country ID
+ Stream<List<CityModel>> getCityByCountryID(String countryID){
+   return FirebaseFirestore.instance
+       .collection(cityCollection)
+        .where("countryID", isEqualTo:  countryID)
+       .snapshots()
+       .map((cityList)=> cityList.docs
+       .map((cityJson) => CityModel.fromJson(cityJson.data()),
+   ).toList()
+   );
+ }
 }

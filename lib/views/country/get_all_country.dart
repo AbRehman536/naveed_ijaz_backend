@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijaz_naveed_backend/models/country.dart';
 import 'package:ijaz_naveed_backend/services/country.dart';
 import 'package:ijaz_naveed_backend/views/country/create_update_country.dart';
+import 'package:ijaz_naveed_backend/views/country/get_city_by_id.dart';
 import 'package:provider/provider.dart';
 
 class GetAllCountry extends StatelessWidget {
@@ -44,7 +45,10 @@ class GetAllCountry extends StatelessWidget {
                     }, icon: Icon(Icons.delete,color: Colors.red,)),
                     IconButton(onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateUpdateCountry(model: CountryModel(), isUpdatedMode: true)));
-                    }, icon: Icon(Icons.edit, color: Colors.blue,))
+                    }, icon: Icon(Icons.edit, color: Colors.blue,)),
+                    IconButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> GetCountries(model: countryList[index])));
+                    }, icon: Icon(Icons.arrow_forward, color: Colors.green,)),
                   ],
                 ),
               );

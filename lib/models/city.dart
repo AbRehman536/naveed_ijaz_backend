@@ -6,6 +6,7 @@ import 'dart:convert';
 
 class CityModel {
   final String? docId;
+  final String? countryID;
   final String? city;
   final int? population;
   final bool? visited;
@@ -14,6 +15,7 @@ class CityModel {
 
   CityModel({
     this.docId,
+    this.countryID,
     this.city,
     this.population,
     this.visited,
@@ -23,6 +25,7 @@ class CityModel {
 
   factory CityModel.fromJson(Map<String, dynamic> json) => CityModel(
     docId: json["docId"],
+    countryID: json["countryID"],
     city: json["city"],
     population: json["population"],
     visited: json["visited"],
@@ -32,6 +35,7 @@ class CityModel {
 
   Map<String, dynamic> toJson(String cityID) => {
     "docId": cityID,
+    "countryID": countryID,
     "city": city,
     "population": population,
     "visited": visited,
