@@ -21,7 +21,6 @@ class GetCountries extends StatelessWidget {
         initialData: const [],
         builder: (context, child) {
           List<CityModel> cityList = context.watch<List<CityModel>>();
-
           return ListView.builder(
             itemCount: cityList.length,
             itemBuilder: (context, index) {

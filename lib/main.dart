@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ijaz_naveed_backend/views/auth/login.dart';
 import 'package:ijaz_naveed_backend/views/city/get_all_cities.dart';
 import 'package:ijaz_naveed_backend/views/country/get_all_country.dart';
 
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: GetAllCities()
+      home: Login()
     );
   }
 }
