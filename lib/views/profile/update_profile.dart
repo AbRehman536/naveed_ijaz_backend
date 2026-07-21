@@ -36,7 +36,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
     var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Update Profile"),
+        title: Text("Update Profile "),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
