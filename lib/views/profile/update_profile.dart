@@ -57,7 +57,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
           TextField(
             controller: addressController,
             decoration: InputDecoration(
-              hint: Text("Address"),
+              hint: Text("Address "),
             ),
           ),
           isLoading ? Center(child: CircularProgressIndicator(),)
