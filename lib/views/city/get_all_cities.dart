@@ -7,6 +7,7 @@ import 'package:ijaz_naveed_backend/views/city/get_remaining_city.dart';
 import 'package:ijaz_naveed_backend/views/city/get_visited_city.dart';
 import 'package:ijaz_naveed_backend/views/city/update_city.dart';
 import 'package:ijaz_naveed_backend/views/country/get_all_country.dart';
+import 'package:ijaz_naveed_backend/views/profile/get_profile.dart';
 import 'package:provider/provider.dart';
 
 class GetAllCities extends StatelessWidget {
@@ -32,6 +33,9 @@ class GetAllCities extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllCountry()));
           }, icon: Icon(Icons.location_city)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> GetProfile()));
+          }, icon: Icon(Icons.person)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){

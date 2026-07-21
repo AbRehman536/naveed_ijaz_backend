@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ijaz_naveed_backend/models/User.dart';
+import 'package:ijaz_naveed_backend/provider/user.dart';
 import 'package:ijaz_naveed_backend/services/auth.dart';
 import 'package:ijaz_naveed_backend/services/user.dart';
 import 'package:ijaz_naveed_backend/views/auth/register.dart';
 import 'package:ijaz_naveed_backend/views/auth/reset_password.dart';
 import 'package:ijaz_naveed_backend/views/city/get_all_cities.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,6 +21,7 @@ class _LoginState extends State<Login> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
@@ -48,26 +51,32 @@ class _LoginState extends State<Login> {
               await AuthService().loginUser(
                   email: emailController.text,
                   password: passwordController.text)
-                 .then((value){
-                   if(value.emailVerified == true){
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>GetAllCities()));
-                   }
-                   else{
+                 .then((value)async{
+                   UserModel userModel = await UserServices().getUserByID(
+                     value.uid.toString()
+                   );
+                   userProvider.setUser(userModel);
+                   showDialog(context: context, builder: (BuildContext context) {
+                     return AlertDialog(
+                       content: Text("Link Send Successfully"),
+                       actions: [
+                         TextButton(onPressed: (){
+                           Navigator.pop(context);
+                           Navigator.pop(context);
+                         }, child: Text("Okay"))
+                       ],
+                     );
+                   }, ); showDialog(context: context, builder: (BuildContext context) {
+                     return AlertDialog(
+                       content: Text("${userModel.name} has beed logged in successfully"),
+                       actions: [
+                         TextButton(onPressed: (){
+                           Navigator.push(context, MaterialPageRoute(builder: (context)=> GetAllCities()));
+                         }, child: Text("Okay"))
+                       ],
+                     );
+                   }, );
 
-                     setState(() {
-                       isLoading = false;
-                     });
-                     showDialog(context: context, builder: (BuildContext context) {
-                       return AlertDialog(
-                         content: Text("Kindly Verify Your Email"),
-                         actions: [
-                           TextButton(onPressed: (){
-                             Navigator.pop(context);
-                           }, child: Text("Okay"))
-                         ],
-                       );
-                     }, );
-                   }
               });
             }catch(e){
               setState(() {

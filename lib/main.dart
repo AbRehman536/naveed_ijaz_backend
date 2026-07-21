@@ -1,13 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ijaz_naveed_backend/provider/user.dart';
 import 'package:ijaz_naveed_backend/views/auth/login.dart';
 import 'package:ijaz_naveed_backend/views/city/get_all_cities.dart';
 import 'package:ijaz_naveed_backend/views/country/get_all_country.dart';
+import 'package:provider/provider.dart';
 
 void main()async{
    WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserProvider())
+  ],
+  child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
